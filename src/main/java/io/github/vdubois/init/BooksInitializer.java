@@ -34,17 +34,16 @@ public class BooksInitializer implements CommandLineRunner {
         Stream.of("Cloud Native Java,Josh Long|Kenny Bastani,31/01/2016,34.99,O'Reilly,256,978-1449374648").forEach(
                 tuple -> {
                     String[] bookCaracteristics = tuple.split(",");
-                    Set<Author> authors = new HashSet<Author>();
-                    Arrays.stream(bookCaracteristics[1].split("|")).forEach(
+                    Book book = new Book();
+                    Arrays.stream(bookCaracteristics[1].split("\\|")).forEach(
                             authorName -> {
                                 Author author = new Author();
                                 author.setName(authorName);
-                                authors.add(authorRepository.save(author));
+                                authorRepository.save(author);
+                                book.addAuthor(author);
                             }
                     );
-                    Book book = new Book();
                     book.setName(bookCaracteristics[0]);
-                    book.setAuthors(authors);
                     book.setEditor(bookCaracteristics[4]);
                     book.setIsbn(bookCaracteristics[6]);
                     book.setNumberOfPages(Integer.valueOf(bookCaracteristics[5]));
