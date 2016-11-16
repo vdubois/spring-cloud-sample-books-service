@@ -4,7 +4,9 @@ import io.github.vdubois.model.Author;
 import io.github.vdubois.model.Book;
 import io.github.vdubois.repository.AuthorRepository;
 import io.github.vdubois.repository.BookRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -18,12 +20,14 @@ import java.util.stream.Stream;
 /**
  * Created by vdubois on 12/11/16.
  */
+@Component
 public class BooksInitializer implements CommandLineRunner {
 
     private BookRepository bookRepository;
 
     private AuthorRepository authorRepository;
 
+    @Autowired
     public BooksInitializer(BookRepository bookRepository, AuthorRepository authorRepository) {
         this.bookRepository = bookRepository;
         this.authorRepository = authorRepository;
