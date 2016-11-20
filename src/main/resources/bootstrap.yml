@@ -1,3 +1,7 @@
 spring:
   application:
     name: books-service
+  cloud:
+    config:
+      fail-fast: true
+      uri: http://config:8888
