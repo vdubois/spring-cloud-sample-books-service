@@ -8,7 +8,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 /**
  * Created by vdubois on 12/11/16.
  */
-@RepositoryRestResource(collectionResourceRel = "books", path = "books")
+@RepositoryRestResource(path = "books", excerptProjection = BookWithAuthorsProjection.class)
 public interface BookRepository extends PagingAndSortingRepository<Book, Long> {
 
     Book findOneByIsbn(@Param(value = "isbn") String isbn);
