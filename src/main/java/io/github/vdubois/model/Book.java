@@ -1,5 +1,7 @@
 package io.github.vdubois.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,6 +31,7 @@ public class Book {
     @NotNull
     private Date publicationDate;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "books_authors", joinColumns = {
             @JoinColumn(name = "book_id", nullable = false, updatable = false)
