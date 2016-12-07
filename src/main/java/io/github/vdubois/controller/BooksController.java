@@ -1,7 +1,7 @@
 package io.github.vdubois.controller;
 
 import io.github.vdubois.model.Book;
-import io.github.vdubois.repository.BookRepository;
+import io.github.vdubois.service.BookService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class BooksController {
 
-    private BookRepository bookRepository;
+    private BookService bookService;
 
-    public BooksController(BookRepository bookRepository) {
-        this.bookRepository = bookRepository;
+    public BooksController(BookService bookService) {
+        this.bookService = bookService;
     }
 
     @GetMapping("/books/{isbn}")
     public Book findBookByIsbn(@PathVariable("isbn") String isbn) {
-        return bookRepository.findOneByIsbn(isbn);
+        return bookService.findOneByIsbn(isbn);
     }
 }
