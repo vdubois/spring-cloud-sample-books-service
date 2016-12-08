@@ -1,7 +1,5 @@
 package io.github.vdubois.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,6 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
@@ -19,7 +18,7 @@ import java.util.Set;
  * Created by vdubois on 12/11/16.
  */
 @Entity
-public class Book {
+public class Book implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,7 +30,6 @@ public class Book {
     @NotNull
     private Date publicationDate;
 
-    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "books_authors", joinColumns = {
             @JoinColumn(name = "book_id", nullable = false, updatable = false)

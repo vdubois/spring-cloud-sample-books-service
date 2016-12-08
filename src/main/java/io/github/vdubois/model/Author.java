@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,7 +16,7 @@ import java.util.Set;
  * Created by vdubois on 12/11/16.
  */
 @Entity
-public class Author {
+public class Author implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -17,4 +17,5 @@
            diskPersistent="false"
            diskExpiryThreadIntervalSeconds="120"
            memoryStoreEvictionPolicy="LRU" />
+    <sizeOfPolicy maxDepth="1000000" maxDepthExceededBehavior="abort" />
 </ehcache>
