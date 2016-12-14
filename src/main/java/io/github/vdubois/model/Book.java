@@ -1,5 +1,7 @@
 package io.github.vdubois.model;
 
+import io.github.vdubois.validator.Isbn;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -48,6 +50,7 @@ public class Book implements Serializable {
     private Integer numberOfPages;
 
     @NotNull
+    @Isbn
     private String isbn;
 
     public Long getId() {
