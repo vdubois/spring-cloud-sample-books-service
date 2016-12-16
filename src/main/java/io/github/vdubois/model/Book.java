@@ -1,10 +1,11 @@
 package io.github.vdubois.model;
 
 import io.github.vdubois.validator.Isbn;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,7 +24,6 @@ import java.util.Set;
  * Created by vdubois on 12/11/16.
  */
 @Entity
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Book implements Serializable {
 
     @Id
@@ -36,13 +36,13 @@ public class Book implements Serializable {
     @NotNull
     private Date publicationDate;
 
-    @ManyToMany
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "books_authors", joinColumns = {
             @JoinColumn(name = "book_id", nullable = false, updatable = false)
     }, inverseJoinColumns = {
             @JoinColumn(name = "author_id", nullable = false, updatable = false)
     })
+    @Fetch(FetchMode.JOIN)
     private Set<Author> authors = new HashSet<>();
 
     @NotNull

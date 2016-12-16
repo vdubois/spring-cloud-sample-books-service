@@ -2,8 +2,7 @@ package io.github.vdubois.service;
 
 import io.github.vdubois.model.Book;
 import io.github.vdubois.repository.BookRepository;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +20,7 @@ public class BookService {
     }
 
     @Transactional(readOnly = true)
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @Cacheable(value = "books", key = "#isbn")
     public Book findOneByIsbn(String isbn) {
         return bookRepository.findOneByIsbn(isbn);
     }
