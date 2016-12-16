@@ -1,6 +1,8 @@
 package io.github.vdubois.model;
 
 import io.github.vdubois.validator.Isbn;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,12 +16,14 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
  * Created by vdubois on 12/11/16.
  */
 @Entity
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Book implements Serializable {
 
     @Id
@@ -33,6 +37,7 @@ public class Book implements Serializable {
     private Date publicationDate;
 
     @ManyToMany
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "books_authors", joinColumns = {
             @JoinColumn(name = "book_id", nullable = false, updatable = false)
     }, inverseJoinColumns = {
@@ -120,5 +125,25 @@ public class Book implements Serializable {
     public void addAuthor(Author author) {
         author.getBooks().add(this);
         authors.add(author);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Book book = (Book) o;
+        if (book.id == null || id == null) {
+            return false;
+        }
+        return Objects.equals(id, book.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }

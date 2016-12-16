@@ -13,6 +13,6 @@ public class IsbnValidator implements ConstraintValidator<Isbn, String> {
    }
 
    public boolean isValid(String value, ConstraintValidatorContext context) {
-      return ISBNValidator.getInstance().isValidISBN13(value);
+      return ISBNValidator.getInstance().isValidISBN10(value);
    }
 }

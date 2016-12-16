@@ -12,9 +12,7 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Locale;
-import java.util.Set;
 import java.util.stream.Stream;
 
 /**
@@ -35,7 +33,7 @@ public class BooksInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
-        Stream.of("Cloud Native Java,Josh Long|Kenny Bastani,31/01/2016,34.99,O'Reilly,256,978-1449374648").forEach(
+        Stream.of("Cloud Native Java,Josh Long|Kenny Bastani,31/01/2016,34.99,O'Reilly,256,1449374646").forEach(
                 tuple -> {
                     String[] bookCaracteristics = tuple.split(",");
                     Book book = new Book();
