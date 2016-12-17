@@ -39,29 +39,38 @@ public class BooksInitializer implements CommandLineRunner {
                     String isbn = bookCaracteristics[6];
                     Book foundBook = bookRepository.findOneByIsbn(isbn);
                     if (foundBook == null) {
-                        Book book = new Book();
-                        Arrays.stream(bookCaracteristics[1].split("\\|")).forEach(
-                                authorName -> {
-                                    Author author = new Author();
-                                    author.setName(authorName);
-                                    authorRepository.save(author);
-                                    book.addAuthor(author);
-                                }
-                        );
-                        book.setName(bookCaracteristics[0]);
-                        book.setEditor(bookCaracteristics[4]);
-                        book.setIsbn(bookCaracteristics[6]);
-                        book.setNumberOfPages(Integer.valueOf(bookCaracteristics[5]));
-                        book.setPrice(new BigDecimal(bookCaracteristics[3]));
-                        SimpleDateFormat frenchFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
-                        try {
-                            book.setPublicationDate(frenchFormat.parse(bookCaracteristics[2]));
-                        } catch (ParseException parseException) {
-                            parseException.printStackTrace();
-                        }
-                        bookRepository.save(book);
+                        insertBookWithCaracteristicsIntoDatabase(bookCaracteristics);
                     }
                 }
         );
+    }
+
+    private void insertBookWithCaracteristicsIntoDatabase(String[] bookCaracteristics) {
+        Book book = initBookFromCaracteristics(bookCaracteristics);
+        bookRepository.save(book);
+    }
+
+    private Book initBookFromCaracteristics(String[] bookCaracteristics) {
+        Book book = new Book();
+        Arrays.stream(bookCaracteristics[1].split("\\|")).forEach(
+                authorName -> {
+                    Author author = new Author();
+                    author.setName(authorName);
+                    authorRepository.save(author);
+                    book.addAuthor(author);
+                }
+        );
+        book.setName(bookCaracteristics[0]);
+        book.setEditor(bookCaracteristics[4]);
+        book.setNumberOfPages(Integer.valueOf(bookCaracteristics[5]));
+        book.setIsbn(bookCaracteristics[6]);
+        book.setPrice(new BigDecimal(bookCaracteristics[3]));
+        SimpleDateFormat frenchFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
+        try {
+            book.setPublicationDate(frenchFormat.parse(bookCaracteristics[2]));
+        } catch (ParseException parseException) {
+            parseException.printStackTrace();
+        }
+        return book;
     }
 }
