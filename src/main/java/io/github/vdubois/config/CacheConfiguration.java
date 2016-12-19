@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.client.ServiceInstance;
@@ -36,6 +37,9 @@ public class CacheConfiguration {
     @Autowired
     private DiscoveryClient discoveryClient;
 
+    @Autowired
+    private ServerProperties serverProperties;
+
     @PreDestroy
     public void destroy() {
         log.info("Closing Cache Manager");
@@ -60,13 +64,16 @@ public class CacheConfiguration {
         String serviceId = discoveryClient.getLocalServiceInstance().getServiceId();
         log.debug("Configuring Hazelcast clustering for instanceId: {}", serviceId);
 
-        // Production configuration, one host per instance all using port 5701
-        config.getNetworkConfig().setPort(5701);
+        log.debug("Application is running with the \"dev\" profile, Hazelcast " +
+                "cluster will only work with localhost instances");
+
+        System.setProperty("hazelcast.local.localAddress", "192.168.1.13");
+        config.getNetworkConfig().setPort(serverProperties.getPort() + 5701);
         config.getNetworkConfig().getJoin().getMulticastConfig().setEnabled(false);
         config.getNetworkConfig().getJoin().getTcpIpConfig().setEnabled(true);
         for (ServiceInstance instance : discoveryClient.getInstances(serviceId)) {
-            String clusterMember = instance.getHost() + ":5701";
-            log.debug("Adding Hazelcast (prod) cluster member " + clusterMember);
+            String clusterMember = "127.0.0.1:" + (instance.getPort() + 5701);
+            log.debug("Adding Hazelcast (dev) cluster member " + clusterMember);
             config.getNetworkConfig().getJoin().getTcpIpConfig().addMember(clusterMember);
         }
         config.getMapConfigs().put("default", initializeDefaultMapConfig());
