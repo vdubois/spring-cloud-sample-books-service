@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.client.ServiceInstance;
@@ -36,9 +35,6 @@ public class CacheConfiguration {
 
     @Autowired
     private DiscoveryClient discoveryClient;
-
-    @Autowired
-    private ServerProperties serverProperties;
 
     @PreDestroy
     public void destroy() {
@@ -68,7 +64,7 @@ public class CacheConfiguration {
                 "cluster will only work with localhost instances");
 
         System.setProperty("hazelcast.local.localAddress", "192.168.1.13");
-        config.getNetworkConfig().setPort(serverProperties.getPort() + 5701);
+        config.getNetworkConfig().setPort(8080 + 5701);
         config.getNetworkConfig().getJoin().getMulticastConfig().setEnabled(false);
         config.getNetworkConfig().getJoin().getTcpIpConfig().setEnabled(true);
         for (ServiceInstance instance : discoveryClient.getInstances(serviceId)) {
