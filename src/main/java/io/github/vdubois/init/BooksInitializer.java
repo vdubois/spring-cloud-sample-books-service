@@ -33,6 +33,7 @@ public class BooksInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
+        Thread.currentThread().sleep((long) (Math.random() * 10000));
         Stream.of("Cloud Native Java,Josh Long|Kenny Bastani,31/01/2016,34.99,O'Reilly,256,1449374646").forEach(
                 tuple -> {
                     String[] bookCaracteristics = tuple.split(",");
