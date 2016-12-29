@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -24,6 +25,7 @@ import java.util.Set;
  * Created by vdubois on 12/11/16.
  */
 @Entity
+@Table(name = "books")
 public class Book implements Serializable {
 
     @Id

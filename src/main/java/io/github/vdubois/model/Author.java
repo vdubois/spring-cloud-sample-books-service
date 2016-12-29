@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -17,6 +18,7 @@ import java.util.Set;
  * Created by vdubois on 12/11/16.
  */
 @Entity
+@Table(name = "authors")
 public class Author implements Serializable {
 
     @Id
