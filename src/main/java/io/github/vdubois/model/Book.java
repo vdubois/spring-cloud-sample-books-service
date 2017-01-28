@@ -4,6 +4,7 @@ import io.github.vdubois.validator.Isbn;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -38,7 +39,7 @@ public class Book implements Serializable {
     @NotNull
     private Date publicationDate;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "books_authors", joinColumns = {
             @JoinColumn(name = "book_id", nullable = false, updatable = false)
     }, inverseJoinColumns = {

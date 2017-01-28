@@ -2,7 +2,6 @@ package io.github.vdubois.init;
 
 import io.github.vdubois.model.Author;
 import io.github.vdubois.model.Book;
-import io.github.vdubois.repository.AuthorRepository;
 import io.github.vdubois.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -23,12 +22,9 @@ public class BooksInitializer implements CommandLineRunner {
 
     private BookRepository bookRepository;
 
-    private AuthorRepository authorRepository;
-
     @Autowired
-    public BooksInitializer(BookRepository bookRepository, AuthorRepository authorRepository) {
+    public BooksInitializer(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
-        this.authorRepository = authorRepository;
     }
 
     @Override
@@ -57,7 +53,6 @@ public class BooksInitializer implements CommandLineRunner {
                 authorName -> {
                     Author author = new Author();
                     author.setName(authorName);
-                    authorRepository.save(author);
                     book.addAuthor(author);
                 }
         );
