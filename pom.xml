@@ -29,6 +29,7 @@
 		<assertj.version>3.6.1</assertj.version>
 		<catch-exception.version>1.2.0</catch-exception.version>
 		<mockito.version>1.9.5</mockito.version>
+		<modernizer-maven-plugin.version>1.5.0</modernizer-maven-plugin.version>
 	</properties>
 
 	<dependencies>
@@ -148,6 +149,23 @@
 					<execution>
 						<goals>
 							<goal>build-info</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.gaul</groupId>
+				<artifactId>modernizer-maven-plugin</artifactId>
+				<version>${modernizer-maven-plugin.version}</version>
+				<configuration>
+					<javaVersion>1.8</javaVersion>
+				</configuration>
+				<executions>
+					<execution>
+						<id>modernizer</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>modernizer</goal>
 						</goals>
 					</execution>
 				</executions>
